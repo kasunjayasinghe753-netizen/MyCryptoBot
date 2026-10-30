@@ -7,7 +7,8 @@ source.include_exts = py,png,jpg,kv,atlas,txt
 version = 1.0.0
 
 requirements = python3,kivy==2.3.0
-
+android.gradle_dependencies = 
+android.permissions = android.permission.WRITE_EXTERNAL_STORAGE, android.permission.READ_EXTERNAL_STORAGE
 orientation = portrait
 fullscreen = 0
 
