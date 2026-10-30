@@ -3,13 +3,11 @@ name: Build Kivy Crypto App
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
   workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: macos-13
 
     steps:
     - name: Checkout Code
@@ -26,20 +24,14 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Install System Dependencies
+    - name: Install Buildozer and Cython
       run: |
-        sudo apt-get update || true
-        sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
     - name: Build with Buildozer
       run: |
-        export PATH=$PATH:$HOME/.local/bin
-        # බිල්ඩර් එක විසින් තනිවම බාගත කිරීම වැළැක්වීමට GitHub පරිසරයේ ඇති පද්ධති Paths සෘජුවම ලබා දීම
-        buildozer android debug
-      env:
-        ANDROID_SDK_PATH: ${{ env.ANDROID_HOME }}
-        ANDROID_NDK_PATH: ${{ env.ANDROID_NDK_LATEST_HOME }}
+        export PATH=$PATH:$HOME/Library/Python/3.10/bin
+        buildozer -v android debug
       continue-on-error: false
 
     - name: Upload APK Artifact
