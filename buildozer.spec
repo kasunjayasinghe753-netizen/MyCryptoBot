@@ -11,11 +11,11 @@ requirements = python3,kivy==2.3.0
 orientation = portrait
 fullscreen = 0
 
-# වැදගත්ම නිවැරදි කිරීම: ස්වයංක්‍රීය බාගත කිරීම් අක්‍රිය කර Workflow එකෙන් එන Paths ලබා ගැනීම
+# නිවැරදි කිරීම: configparser දෝෂය මඟහැරීමට පද්ධති විචල්‍යයන් සෘජුවම කියවන ලෙස විධාන කිරීම
 android.api = 33
 android.minapi = 21
-android.sdk_path = %(ANDROID_SDK_PATH)s
-android.ndk_path = %(ANDROID_NDK_PATH)s
+android.sdk_path = $ANDROID_SDK_PATH
+android.ndk_path = $ANDROID_NDK_PATH
 android.skip_setup = True
 
 android.archs = arm64-v8a
