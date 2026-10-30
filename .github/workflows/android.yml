@@ -29,7 +29,8 @@ jobs:
     - name: Install System Dependencies
       run: |
         sudo apt-get update || true
-        sudo apt-get install -y --fix-missing git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+        # බිඳ වැටුණු gstreamer පැකේජ ඉවත් කර, බිල්ඩර් එකට අත්‍යවශ්‍යම දේ පමණක් ස්ථාපනය කිරීම
+        sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
     - name: Configure Android SDK Path & Accept Licenses
