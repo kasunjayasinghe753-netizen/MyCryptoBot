@@ -32,34 +32,14 @@ jobs:
         sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
-    # වැදගත්ම කොටස: Buildozer බලාපොරොත්තු වන නිවැරදිම SDK/cmdline-tools ව්‍යුහය අතින්ම සකස් කිරීම
-    - name: Pre-setup Android SDK for Buildozer
-      run: |
-        # බිල්ඩර් එකේ මූලික ෆෝල්ඩර් සෑදීම
-        mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools
-        
-        # දැනට පවතින SDK එක නිවැරදි ස්ථානයට ලින්ක් කිරීම
-        ln -s $ANDROID_HOME/cmdline-tools/latest ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest || true
-        ln -s $ANDROID_HOME/licenses ~/.buildozer/android/platform/android-sdk/licenses || true
-        
-        # Buildozer සොයන පැරණි 'tools' ෆෝල්ඩරයේ කෙටිමඟ සකස් කිරීම
-        mkdir -p ~/.buildozer/android/platform/android-sdk/tools/bin
-        ln -s $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager || true
-        
-        # බලපත්‍ර (Licenses) තහවුරු කිරීම
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
-
-    - name: Fix Directory Permissions
-      run: |
-        sudo chown -R runner:docker $GITHUB_WORKSPACE
-        chmod -R 755 $GITHUB_WORKSPACE
-
     - name: Build with Buildozer
       run: |
         export PATH=$PATH:$HOME/.local/bin
-        buildozer -v android debug
+        # බිල්ඩර් එක විසින් තනිවම බාගත කිරීම වැළැක්වීමට GitHub පරිසරයේ ඇති පද්ධති Paths සෘජුවම ලබා දීම
+        buildozer android debug
+      env:
+        ANDROID_SDK_PATH: ${{ env.ANDROID_HOME }}
+        ANDROID_NDK_PATH: ${{ env.ANDROID_NDK_LATEST_HOME }}
       continue-on-error: false
 
     - name: Upload APK Artifact
