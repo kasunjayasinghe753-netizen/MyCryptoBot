@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-13
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout Code
@@ -24,13 +24,17 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Install Buildozer and Cython
+    - name: Install System Dependencies
       run: |
+        sudo apt-get update || true
+        sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
+    # මෙම පියවර මඟින් Buildozer හට අවශ්‍ය Android SDK එක බිංදුවේ සිටම නිවැරදිව තනිවම සාදා ගැනීමට ඉඩ සලසයි
     - name: Build with Buildozer
       run: |
-        export PATH=$PATH:$HOME/Library/Python/3.10/bin
+        export PATH=$PATH:$HOME/.local/bin
+        # පද්ධති Paths මුළුමනින්ම ඉවත් කර පිරිසිදුව බිල්ඩ් එක ආරම්භ කිරීම
         buildozer -v android debug
       continue-on-error: false
 
