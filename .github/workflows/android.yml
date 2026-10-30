@@ -1,18 +1,3 @@
-name: Build Kivy Crypto App
-
-on:
-  push:
-    branches: [ main, master ]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-22.04
-
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
@@ -27,14 +12,13 @@ jobs:
     - name: Install System Dependencies
       run: |
         sudo apt-get update || true
-        sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
+        sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev patch openjdk-17-jdk
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
-    # මෙම පියවර මඟින් Buildozer හට අවශ්‍ය Android SDK එක බිංදුවේ සිටම නිවැරදිව තනිවම සාදා ගැනීමට ඉඩ සලසයි
     - name: Build with Buildozer
       run: |
         export PATH=$PATH:$HOME/.local/bin
-        # පද්ධති Paths මුළුමනින්ම ඉවත් කර පිරිසිදුව බිල්ඩ් එක ආරම්භ කිරීම
+        export JAVA_HOME=$JAVA_HOME
         buildozer -v android debug
       continue-on-error: false
 
