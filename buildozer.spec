@@ -11,6 +11,7 @@ requirements = python3,kivy==2.3.0
 orientation = portrait
 fullscreen = 0
 
+# කිසිදු පිටස්තර Path එකක් නැති පිරිසිදු Android බිල්ඩ් සැකසුම
 android.api = 33
 android.minapi = 21
 android.archs = arm64-v8a
