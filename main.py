@@ -12,7 +12,12 @@ from kivy.clock import Clock
 from kivy.utils import get_color_from_hex
 
 SYMBOLS = ['BNBUSDT', 'ETHUSDT', 'BTCUSDT']
-LOG_FILE = "crypto_signals_log.txt"
+# Android ෆෝන් එක ඇතුළේ App එක ක්‍රැෂ් නොවී සේව් වෙන්න:
+if os.environ.get('ANDROID_ARGUMENT'):
+    from android.storage import app_storage_path
+    LOG_FILE = os.path.join(app_storage_path(), "crypto_signals_log.txt")
+else:
+    LOG_FILE = "crypto_signals_log.txt"
 update_interval = 2.0  
 clock_event = None     
 simulated_history = {}
