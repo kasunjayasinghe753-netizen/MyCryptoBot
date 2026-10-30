@@ -28,8 +28,9 @@ jobs:
 
     - name: Install System Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
+        # මින්පසු mirror බිඳ වැටුනද බිල්ඩ් එක නවතින්නේ නැත
+        sudo apt-get update || true
+        sudo apt-get install -y --fix-missing git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
     - name: Configure Android SDK Path & Accept Licenses
@@ -44,7 +45,6 @@ jobs:
         touch ~/.android/repositories.cfg
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
 
-    # දෝෂ මඟහරවා ගැනීම සඳහා ගොනු වල අයිතිය සහ Permissions නිවැරදි කිරීම
     - name: Fix Directory Permissions
       run: |
         sudo chown -R runner:docker $GITHUB_WORKSPACE
@@ -53,7 +53,6 @@ jobs:
     - name: Build with Buildozer
       run: |
         export PATH=$PATH:$HOME/.local/bin
-        # Buildozer කැඩෙන්නේ නැතිව සම්පූර්ණ ලොග් බලාගැනීම සඳහා log_level = 2 සමඟ ධාවනය
         buildozer --verbose android debug
       continue-on-error: false
 
