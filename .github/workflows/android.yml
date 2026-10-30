@@ -7,41 +7,17 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
+    - name: Build APK with Buildozer Action
+      uses: ArtemGovorov/buildozer-action@v1
       with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Install Buildozer and Linux Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y git zip unzip openjdk-17-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
-        pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
-
-    - name: Pre-accept Android SDK Licenses & Fix Build Environment
-      run: |
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        # Buildozer හට Gradle බිල්ඩ් එක අතරතුර හිර නොවී වැඩ කිරීමට අවශ්‍ය Memory Limit එක වැඩි කිරීම
-        echo "org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m" >> ~/.gradle/gradle.properties || true
-
-    - name: Build with Buildozer
-      run: |
-        export PATH=$PATH:$HOME/.local/bin
-        # Licenses සියල්ල ස්වයංක්‍රීයව පිළිගෙන බිල්ඩ් එක ඉදිරියටම යැවීම
-        yes | buildozer -v android debug
-      continue-on-error: false
+        buildozer_version: stable
+        command: android debug
+        repository_root: .
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
