@@ -28,7 +28,6 @@ jobs:
 
     - name: Install System Dependencies
       run: |
-        # මින්පසු mirror බිඳ වැටුනද බිල්ඩ් එක නවතින්නේ නැත
         sudo apt-get update || true
         sudo apt-get install -y --fix-missing git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev libgstreamer1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
