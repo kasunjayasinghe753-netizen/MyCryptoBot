@@ -6,13 +6,13 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,txt
 version = 1.0.0
 
-# වැදගත්: Kivy සමඟ සැබෑ බිල්ඩ් එකට අවශ්‍ය dependencies
-requirements = python3,kivy==2.3.0,pillow
+# වැදගත් වෙනස: Python සංස්කරණය ස්ථාවර 3.11 එකකට සීමා කිරීම සහ Kivy නිවැරදිව ලබා දීම
+requirements = python3==3.11.9,kivy==2.3.0
 
 orientation = portrait
 fullscreen = 0
 
-# Android SDK සහ NDK API සංස්කරණ (GitHub Actions වලට ගැලපෙන ලෙස)
+# GitHub Actions සඳහා වඩාත්ම ගැලපෙන ස්ථාවර Android API සංස්කරණ
 android.api = 33
 android.minapi = 21
 android.ndk = 25b
