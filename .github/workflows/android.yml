@@ -32,10 +32,21 @@ jobs:
         sudo apt-get install -y git zip unzip python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libssl-dev cmake libffi-dev libltdl-dev
         pip3 install --user --upgrade "buildozer>=1.5.0" cython virtualenv
 
-    - name: Configure Android SDK Path & Accept Licenses
+    # වැදගත්ම කොටස: Buildozer බලාපොරොත්තු වන නිවැරදිම SDK/cmdline-tools ව්‍යුහය අතින්ම සකස් කිරීම
+    - name: Pre-setup Android SDK for Buildozer
       run: |
-        mkdir -p ~/.buildozer/android/platform/
-        ln -s $ANDROID_HOME ~/.buildozer/android/platform/android-sdk || true
+        # බිල්ඩර් එකේ මූලික ෆෝල්ඩර් සෑදීම
+        mkdir -p ~/.buildozer/android/platform/android-sdk/cmdline-tools
+        
+        # දැනට පවතින SDK එක නිවැරදි ස්ථානයට ලින්ක් කිරීම
+        ln -s $ANDROID_HOME/cmdline-tools/latest ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest || true
+        ln -s $ANDROID_HOME/licenses ~/.buildozer/android/platform/android-sdk/licenses || true
+        
+        # Buildozer සොයන පැරණි 'tools' ෆෝල්ඩරයේ කෙටිමඟ සකස් කිරීම
+        mkdir -p ~/.buildozer/android/platform/android-sdk/tools/bin
+        ln -s $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager ~/.buildozer/android/platform/android-sdk/tools/bin/sdkmanager || true
+        
+        # බලපත්‍ර (Licenses) තහවුරු කිරීම
         mkdir -p ~/.android
         touch ~/.android/repositories.cfg
         yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
